@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, HTTPException
 
 app = FastAPI()
 
@@ -40,6 +40,9 @@ def health_check():
 
 
 
-@app.get("/tasks")
-def get_all_tasks():
-    return tasks
+@app.get("/tasks/{id}")
+def get_task(id: int):
+    for task in tasks:
+        if task["id"] == id:
+            return task
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
