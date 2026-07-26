@@ -38,7 +38,7 @@ def read_root():
     }
 
 
-@app.get("/health", summary="Health Check", description="Returns the health status of the API.")
+@app.get("/health", summary="Health Check", description="Returns whether the API is running or not.")
 def health_check():
     return {
         "status": "ok"
