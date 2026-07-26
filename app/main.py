@@ -25,7 +25,11 @@ tasks = [
 
 
 
-@app.get("/")
+@app.get(
+    "/",
+    summary="API Information",
+    description="Returns basic information about the Task API."
+)
 def read_root():
     return {
         "name": "Task API",
@@ -34,7 +38,7 @@ def read_root():
     }
 
 
-@app.get("/health")
+@app.get("/health", summary="Health Check", description="Returns the health status of the API.")
 def health_check():
     return {
         "status": "ok"
@@ -42,16 +46,17 @@ def health_check():
 
 
 
-@app.get("/tasks/{id}")
-def get_task(id: int):
-    for task in tasks:
-        if task["id"] == id:
-            return task
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
+@app.get(
+    "/tasks",
+    summary="Get all tasks",
+    description="Returns the complete list of tasks stored in memory."
+)
+def get_tasks():
+    return tasks
 
 
 
-@app.post("/tasks", status_code=201)
+@app.post("/tasks", status_code=201, summary="Create a new task", description="Creates a new task with the provided title.")
 def create_task(task: TaskCreate):
 
     # Find the next available ID
@@ -71,7 +76,7 @@ def create_task(task: TaskCreate):
     return new_task
 
 
-@app.put("/tasks/{id}")
+@app.put("/tasks/{id}", summary="Update a task", description="Updates the title and done status of a task by its ID.")
 def update_task(id: int, task: TaskUpdate):
     for t in tasks:
         if t["id"] == id:
@@ -82,7 +87,7 @@ def update_task(id: int, task: TaskUpdate):
 
 
 
-@app.delete("/tasks/{id}", status_code=204)
+@app.delete("/tasks/{id}", status_code=204, summary="Delete a task", description="Deletes a task by its ID.")
 def delete_task(id: int):
     for t in tasks:
         if t["id"] == id:
