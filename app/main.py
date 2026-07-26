@@ -1,6 +1,7 @@
 from fastapi import FastAPI, status, HTTPException
+from app.models import TaskCreate, TaskUpdate
 
-from app.models import TaskCreate
+
 app = FastAPI()
 
 
@@ -68,3 +69,24 @@ def create_task(task: TaskCreate):
 
     # Return the new task
     return new_task
+
+
+@app.put("/tasks/{id}")
+def update_task(id: int, task: TaskUpdate):
+    for t in tasks:
+        if t["id"] == id:
+            t["title"] = task.title
+            t["done"] = task.done
+            return t
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
+
+
+
+@app.delete("/tasks/{id}", status_code=204)
+def delete_task(id: int):
+    for t in tasks:
+        if t["id"] == id:
+            tasks.remove(t)
+            return
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found") 
+
