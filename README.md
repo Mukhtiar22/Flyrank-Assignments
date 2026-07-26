@@ -185,21 +185,9 @@ HTTP/1.1 201 Created
 
 #  Swagger Screenshot
 
-Add your Swagger UI screenshot here.
+Here is the Swagger UI screenshot for the API documentation:
 
-Example
-
-```
-
-docs/swagger.png
-
-```
-
-Markdown
-
-```markdown
 ![Swagger UI](docs/swagger.png)
-```
 
 ---
 
